@@ -1,5 +1,3 @@
-// https://github.com/arielivandiaz/auto-commit
-
 var fs = require('fs');
 
 var file_path = 'version/version.json';
