@@ -327,7 +327,7 @@ int main(void)
          /************ BH1750_lux ********************/
          if (BH1750_OK == BH1750_ReadLight(&BH1750_lux))
          {
-            sensorValue[5] = BH1750_lux;
+            sensorValue[5] = BH1750_lux *2;
          }
 
          /************ MQs ********************/
@@ -340,8 +340,9 @@ int main(void)
 
          //sprintf(buff, ": %0.2lf %0.2lf ", humidity,temperature);
 
-         sprintf(buff, "H: %.2f\t T: %.2f\t T: %.2f\t P: %d\t A: %.2f\t Lx: %.2f\t ADC1: %d\t ADC2: %d\t ADC3: %d\r\n", humidity, temperature, bmp.data.temp, bmp.data.press, bmp.data.altitude, BH1750_lux * 2, adc1, adc2, adc3);
-
+         //sprintf(buff, "H: %.2f\t T: %.2f\t T: %.2f\t P: %d\t A: %.2f\t Lx: %.2f\t ADC1: %d\t ADC2: %d\t ADC3: %d\r\n", humidity, temperature, bmp.data.temp, bmp.data.press, bmp.data.altitude, BH1750_lux * 2, adc1, adc2, adc3);
+				 
+				sprintf(buff, "%.2f \t %.2f \t %.2f \t%.2f \t%.2f \t%.2f \t%.2f \r\n", sensorValue[0], sensorValue[1],  sensorValue[3], sensorValue[4]/100, sensorValue[5], sensorValue[6]/100, sensorValue[7]);
          USART_Puts(USART2, buff);
       }
 

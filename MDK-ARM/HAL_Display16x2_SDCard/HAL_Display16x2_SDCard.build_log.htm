@@ -3,52 +3,54 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.31.0.0
+IDE-Version: µVision V5.32.0.0
 Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Ariel Diaz, Flash, LIC=----
+License Information: asasd asd, sa, LIC=----
  
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.31.0.0
+Toolchain:       MDK-Lite  Version: 5.32.0.0
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 6 (build 750)
-Assembler:       Armasm.exe V5.06 update 6 (build 750)
-Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
-Library Manager: ArmAr.exe V5.06 update 6 (build 750)
-Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
-CPU DLL:         SARMCM3.DLL V5.31.0.0
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.32.0.0
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
 Dialog DLL:      TCM.DLL V1.46.0.0
  
 <h2>Project:</h2>
-C:\Users\Flash\Desktop\Contamicrap_V2\MDK-ARM\HAL_Display16x2_SDCard.uvprojx
-Project File Date:  09/03/2020
+G:\Tech-LG\STM32F4-Contaminometro\MDK-ARM\HAL_Display16x2_SDCard.uvprojx
+Project File Date:  10/15/2020
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'HAL_Display16x2_SDCard'
 compiling main.c...
 ../Inc/bmp085.h(187): warning:  #1-D: last line of file ends without a newline
   #endif /* BMP180_H_ */
 ../Inc/BH1750.h(51): warning:  #1-D: last line of file ends without a newline
   #endif /* BH1750_H_ */
-../Src/main.c(293): warning:  #223-D: function "sprintf" declared implicitly
+../Src/main.c(287): warning:  #223-D: function "sprintf" declared implicitly
               sprintf(asd, "%d %d \n\r", count);
-../Src/main.c(304): warning:  #223-D: function "sprintf" declared implicitly
+../Src/main.c(298): warning:  #223-D: function "sprintf" declared implicitly
            sprintf(displaybuffer, "%s :  ", sensorName[lcdcounter]);
-../Src/main.c(357): warning:  #175-D: subscript out of range
+../Src/main.c(336): warning:  #175-D: subscript out of range
            sensorValue[7] = Read_Adc(ADC_Channel_13); // Y este
-../Src/main.c(364): warning:  #223-D: function "sprintf" declared implicitly
-           sprintf(buff, "H: %.2f\t T: %.2f\t T: %.2f\t P: %d\t A: %.2f\t Lx: %.2f\t ADC1: %d\t ADC2: %d\t ADC3: %d\r\n", humidity, temperature, bmp.data.temp, bmp.data.press, bmp.data.altitude, BH1750_lux * 2, adc1, adc2, adc3);
+../Src/main.c(345): warning:  #223-D: function "sprintf" declared implicitly
+  			sprintf(buff, "%.2f \t %.2f \t %.2f \t%.2f \t%.2f \t%.2f \t%.2f \r\n", sensorValue[0], sensorValue[1],  sensorValue[3], sensorValue[4]/100, sensorValue[5], sensorValue[6]/100, sensorValue[7]);
+../Src/main.c(345): warning:  #175-D: subscript out of range
+  			sprintf(buff, "%.2f \t %.2f \t %.2f \t%.2f \t%.2f \t%.2f \t%.2f \r\n", sensorValue[0], sensorValue[1],  sensorValue[3], sensorValue[4]/100, sensorValue[5], sensorValue[6]/100, sensorValue[7]);
 ../Src/main.c(246): warning:  #177-D: variable "altitud"  was declared but never referenced
      float altitud = 0.0;
 ../Src/main.c(247): warning:  #177-D: variable "temp"  was declared but never referenced
      float temp = 0.0;
-../Src/main.c: 8 warnings, 0 errors
+../Src/main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=29596 RO-data=948 RW-data=256 ZI-data=18640  
+Program Size: Code=29664 RO-data=860 RW-data=236 ZI-data=18644  
 FromELF: creating hex file...
-"HAL_Display16x2_SDCard\HAL_Display16x2_SDCard.axf" - 0 Error(s), 8 Warning(s).
+"HAL_Display16x2_SDCard\HAL_Display16x2_SDCard.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -59,14 +61,14 @@ Package Vendor: ARM
    * Component: CORE Version: 5.4.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.14.0.pack
-                Keil.STM32F4xx_DFP.2.14.0
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.15.0.pack
+                Keil.STM32F4xx_DFP.2.15.0
                 STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_HAL_Display16x2_SDCard
-  C:\Users\Flash\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
-  C:\Users\Flash\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+  C:\Users\Nasha\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  C:\Users\Nasha\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
