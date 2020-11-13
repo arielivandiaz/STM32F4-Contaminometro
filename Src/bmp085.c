@@ -243,7 +243,7 @@ float get_altitude (bmp_t * bmp)
 		bmp->err = GET_ALTITUDE_ERR;
 	}
 
-	return altitude;
+	return altitude+42;
 }
 
 

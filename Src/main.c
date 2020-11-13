@@ -32,7 +32,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define sensorsLot 7
+#define sensorsLot 8
 #define circularBufferLength 10
 #define circularBufferLot 10
 
@@ -95,7 +95,7 @@ UINT testByte;
 char myData[] = "Hello Worldasdas\0";
 char myPath[] = "WRITE1.TXT\0";
 int btncounter = 0;
-int lcdcounter = 0;
+int lcdcounter = 7;
 int lcdcounterCallback = 0;
 
 /* USER CODE END PV */
@@ -121,11 +121,25 @@ void USART_Puts(USART_TypeDef *USARTx, char *str);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+long map(int x, int in_min, int in_max, int out_min, int out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+
 float circularBuffer[circularBufferLot][circularBufferLength];
 int circularBufferIndex[circularBufferLot] = {0};
 int circularBufferFlag[circularBufferLot] = {0};
 float minValue[circularBufferLot] = {999999999};
 float maxValue[circularBufferLot] = {-999999999};
+
+
+void initMinMax () {
+	    for (int i = 0; i < circularBufferLot; i++)
+      {
+         minValue[i] = 999999999;
+				maxValue[i] = -999999999;
+      }
+}
 
 void appendToBuffer(int bufferID, float value)
 {
@@ -179,6 +193,8 @@ float appendToBufferAndGetMM(int bufferID, float value)
       minValue[bufferID] = result;
    return result;
 }
+
+
 
 float sensorValue[sensorsLot] = {0};
 char *sensorName[] = {
@@ -245,7 +261,7 @@ int main(void)
    bmp_init(&bmp);
    float altitud = 0.0;
    float temp = 0.0;
-
+	initMinMax ();
    //Inicialización del Display 16x2
    LCD1602_Begin4BIT(RS_GPIO_Port, RS_Pin, E_Pin, D4_GPIO_Port, D4_Pin, D5_Pin, D6_Pin, D7_Pin);
 
@@ -253,22 +269,27 @@ int main(void)
 
    /* Infinite loop */
    /* USER CODE BEGIN WHILE */
-
+   char buff[250];
    //Guardar datos en un .txt dentro de la SD_Card
    if (f_mount(&myFATAFS, SDPath, 1) == FR_OK)
    {
-      HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-      char myPath[] = "Output.TXT\0";
-      f_open(&myFILE, myPath, FA_WRITE | FA_CREATE_ALWAYS);
-      f_close(&myFILE);
+     HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);     
+     f_open(&myFILE, myPath, FA_WRITE | FA_CREATE_ALWAYS);
+		 	memset(buff, 0, sizeof buff);		
+		 sprintf(buff, "Min\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\r\n", sensorName[0], sensorName[1],  sensorName[3], sensorName[4], sensorName[5],  sensorName[6], sensorName[7]);		
+
+     f_write(&myFILE, buff, sizeof(buff), &testByte);
+     f_close(&myFILE);
    }
    else
    {
       errorCode = 1;
    }
 
-   char buff[50];
+
    int count = 0;
+	 int flag = 0;
+	 int flag_comPlotter = 1;
    LCD1602_noBlink();
    while (1)
    {
@@ -277,31 +298,46 @@ int main(void)
 
       /* USER CODE BEGIN 3 */
 
-      if (count % 100 == 0)
+      if (count % 100 == 0 && flag == 1)
       {
          if (f_mount(&myFATAFS, SDPath, 1) == FR_OK)
          {
-            f_open(&myFILE, myPath, FA_OPEN_APPEND | FA_WRITE);
-
-            char asd[10];
-            sprintf(asd, "%d %d \n\r", count);
-            f_write(&myFILE, asd, sizeof(asd), &testByte);
+            f_open(&myFILE, myPath, FA_OPEN_APPEND | FA_WRITE);       
+						memset(buff, 0, sizeof buff);					 
+            
+						sprintf(buff, "%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\r\n",  minValue[0],sensorValue[0],maxValue[0],minValue[1],sensorValue[1],maxValue[1],minValue[3],sensorValue[3],maxValue[3],minValue[4],sensorValue[4],maxValue[4],minValue[5],sensorValue[5],maxValue[5], minValue[6],sensorValue[6],maxValue[6],minValue[7],sensorValue[7],maxValue[7]);
+            f_write(&myFILE, buff, sizeof(buff), &testByte);
             f_close(&myFILE);
          }
       }
 
       if (count % 10 == 0 || lcdcounterCallback == 1)
       {
-         lcdcounterCallback = 0;
+				 int id=0;
+				 lcdcounterCallback = 0;
          char displaybuffer[18];
-         LCD1602_clear();
-         sprintf(displaybuffer, "%s :  ", sensorName[lcdcounter]);
-         LCD1602_1stLine();
-         LCD1602_print(displaybuffer);
+				 LCD1602_clear();
+				
+				 if (lcdcounter == 0) 	{
+					flag_comPlotter = 1;
+					sprintf(displaybuffer, "TDII - UTN FRBB ");
+					LCD1602_1stLine();
+					LCD1602_print(displaybuffer);
 
-         sprintf(displaybuffer, "%0.4lf ", sensorValue[lcdcounter]);
-         LCD1602_2ndLine();
-         LCD1602_print(displaybuffer);
+					sprintf(displaybuffer, "Diaz - Kremer ");
+					LCD1602_2ndLine();
+					LCD1602_print(displaybuffer);						 
+				 } else {
+					 flag_comPlotter = 0;
+					sprintf(displaybuffer, "%s :  ", sensorName[lcdcounter-1]);
+					LCD1602_1stLine();
+					LCD1602_print(displaybuffer);
+
+					sprintf(displaybuffer, "%0.4lf ", sensorValue[lcdcounter-1]);
+					LCD1602_2ndLine();
+					LCD1602_print(displaybuffer);			
+				 }	
+				 if(flag==0)flag=1;
       }
       else
       {
@@ -310,8 +346,9 @@ int main(void)
 
          /************ SHT3X ********************/
          SHT3X_Update();
-         sensorValue[0] = SHT3X_getTemperature();
-         sensorValue[1] = SHT3X_getHumidity();
+				 sensorValue[0] = appendToBufferAndGetMM(0,SHT3X_getTemperature());
+				 sensorValue[1] = appendToBufferAndGetMM(1,SHT3X_getHumidity());
+       
 
          /************ BMP180 ********************/
          bmp.uncomp.temp = get_ut();
@@ -320,30 +357,44 @@ int main(void)
          bmp.data.press = get_pressure(bmp);
          bmp.data.altitude = get_altitude(&bmp);
 
-         sensorValue[2] = bmp.data.temp;
-         sensorValue[3] = bmp.data.press;
-         sensorValue[4] = bmp.data.altitude;
+				 sensorValue[2] = appendToBufferAndGetMM(2, bmp.data.temp);
+					float temp =  bmp.data.press;
+					temp /= 100;
+				 sensorValue[3] = appendToBufferAndGetMM(3, temp);
+				 sensorValue[4] = appendToBufferAndGetMM(4,bmp.data.altitude);
 
          /************ BH1750_lux ********************/
          if (BH1750_OK == BH1750_ReadLight(&BH1750_lux))
          {
-            sensorValue[5] = BH1750_lux *2;
+  					 
+					 			sensorValue[5] = appendToBufferAndGetMM(5,BH1750_lux *2);
          }
 
          /************ MQs ********************/
          //adc1 = Read_Adc(ADC_Channel_11);
-         sensorValue[6] = Read_Adc(ADC_Channel_12); //Este
-         sensorValue[7] = Read_Adc(ADC_Channel_13); // Y este
+/*
+				 temp =  Read_Adc(ADC_Channel_12)*3.0/4096;
+				 temp = (3.0-temp)/temp;
+				 temp =  (19.32  * pow(temp, -0.64));*/
+				 //temp = map ( Read_Adc(ADC_Channel_13) -55 ,0,4096,400,5000);
+		
+				 	sensorValue[6] = appendToBufferAndGetMM(6, Read_Adc(ADC_Channel_12)); //MQ-7
+			
+				 	sensorValue[7] = appendToBufferAndGetMM(7,Read_Adc(ADC_Channel_11)); //MQ-135
 
-         //sprintf(buff, "Paco : %lf %lf %d %d\n\r", humidity,temperature,adc1,adc2);
-         //sprintf(buff, "%d %d %d",adc1, adc2,adc3);
-
-         //sprintf(buff, ": %0.2lf %0.2lf ", humidity,temperature);
-
-         //sprintf(buff, "H: %.2f\t T: %.2f\t T: %.2f\t P: %d\t A: %.2f\t Lx: %.2f\t ADC1: %d\t ADC2: %d\t ADC3: %d\r\n", humidity, temperature, bmp.data.temp, bmp.data.press, bmp.data.altitude, BH1750_lux * 2, adc1, adc2, adc3);
-				 
-				sprintf(buff, "%.2f \t %.2f \t %.2f \t%.2f \t%.2f \t%.2f \t%.2f \r\n", sensorValue[0], sensorValue[1],  sensorValue[3], sensorValue[4]/100, sensorValue[5], sensorValue[6]/100, sensorValue[7]);
-         USART_Puts(USART2, buff);
+			if ( lcdcounter == 0)
+				sprintf(buff, "\r%.2f \t %.2f \t %.2f \t%.2f \t%.2f \t%.2f \t%.2f \n", sensorValue[0], sensorValue[1],  sensorValue[3]/1000, sensorValue[5], sensorValue[6], sensorValue[7]);
+			else{
+				if( (lcdcounter-1) ==3)
+						sprintf(buff, "\r %.2f\t \n", sensorValue[lcdcounter-1]/1000);
+				else {
+							sprintf(buff, "\r %.2f\t \n", sensorValue[lcdcounter-1]);
+				}
+			}
+				
+				
+        
+				USART_Puts(USART2, buff);
       }
 
       count++;
@@ -719,8 +770,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       if (lcdcounter > sensorsLot)
          lcdcounter = 0;
    }
-   for (uint32_t i = 0; i < 20000000; i++)
-      ;
+   for (uint32_t i = 0; i < 20000000; i++);
+	 
    btncounter++;
 }
 

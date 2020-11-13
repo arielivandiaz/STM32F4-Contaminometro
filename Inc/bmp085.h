@@ -65,7 +65,7 @@
 
 // Pressure measurment :
 #define BMP_SET_PRESS_CONV		            	(0x34)
-#define BMP_PRESS_CONST_SEA_LEVEL 	    		(101325.0f) // pressure in Pa
+#define BMP_PRESS_CONST_SEA_LEVEL 	    		(100825.0f) // pressure in Pa
 #define BMP_PRESS_CONST_COEFICIENT 	    		(44330.0f)
 
 // Altitude measurment :
