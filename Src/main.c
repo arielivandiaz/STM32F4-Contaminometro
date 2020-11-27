@@ -95,7 +95,7 @@ UINT testByte;
 char myData[] = "Hello Worldasdas\0";
 char myPath[] = "WRITE1.TXT\0";
 int btncounter = 0;
-int lcdcounter = 7;
+int lcdcounter = 0;
 int lcdcounterCallback = 0;
 
 /* USER CODE END PV */
@@ -207,6 +207,19 @@ char *sensorName[] = {
     "MQ7",             //6 - MQ7
     "MQ135"            //7 - MQ135
 };
+
+
+char *sensorUnit[] = {
+    "C",     //0 - Temperature SHT3X
+    "%",        //1 - Humidity SHT3X
+    "C",   //2 - BMP180 Temperature
+    "Pa",        //3 - BMP180 Pressure
+    "m",        //4 - BMP180 Altitude
+    "lux", //5 - BH1750  Light Intensity
+    "",             //6 - MQ7
+    ""            //7 - MQ135
+};
+
 
 int errorCode = 0;
 char *errorString[] = {"All Ok", "Not SD"};
@@ -333,7 +346,7 @@ int main(void)
 					LCD1602_1stLine();
 					LCD1602_print(displaybuffer);
 
-					sprintf(displaybuffer, "%0.4lf ", sensorValue[lcdcounter-1]);
+					sprintf(displaybuffer, "%0.2lf %s", sensorValue[lcdcounter-1],sensorUnit[lcdcounter-1]);
 					LCD1602_2ndLine();
 					LCD1602_print(displaybuffer);			
 				 }	
@@ -386,9 +399,9 @@ int main(void)
 				sprintf(buff, "\r%.2f \t %.2f \t %.2f \t%.2f \t%.2f \t%.2f \t%.2f \n", sensorValue[0], sensorValue[1],  sensorValue[3]/1000, sensorValue[5], sensorValue[6], sensorValue[7]);
 			else{
 				if( (lcdcounter-1) ==3)
-						sprintf(buff, "\r %.2f\t \n", sensorValue[lcdcounter-1]/1000);
+						sprintf(buff, "\r %.2f  \n", sensorValue[lcdcounter-1]/1000);
 				else {
-							sprintf(buff, "\r %.2f\t \n", sensorValue[lcdcounter-1]);
+							sprintf(buff, "\r %.2f  \n", sensorValue[lcdcounter-1]);
 				}
 			}
 				

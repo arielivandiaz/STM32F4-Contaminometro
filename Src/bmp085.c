@@ -236,6 +236,7 @@ float get_altitude (bmp_t * bmp)
 {
 	float altitude = 0;
 
+	
 	altitude = BMP_PRESS_CONST_COEFICIENT * (1.0f - pow((bmp->data.press / BMP_PRESS_CONST_SEA_LEVEL), (1/5.255)));
 
 	if ((altitude <= BMP_MIN_ALT_THRESHOLD) || (altitude >= BMP_MAX_ALT_THRESHOLD))

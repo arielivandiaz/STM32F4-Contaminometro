@@ -40,35 +40,35 @@ compiling main.c...
   #endif /* BMP180_H_ */
 ../Inc/BH1750.h(51): warning:  #1-D: last line of file ends without a newline
   #endif /* BH1750_H_ */
-../Src/main.c(278): warning:  #223-D: function "memset" declared implicitly
+../Src/main.c(291): warning:  #223-D: function "memset" declared implicitly
   		 	memset(buff, 0, sizeof buff);		
-../Src/main.c(279): warning:  #223-D: function "sprintf" declared implicitly
+../Src/main.c(292): warning:  #223-D: function "sprintf" declared implicitly
   		 sprintf(buff, "Min\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\tMin\t%s\tMax\r\n", sensorName[0], sensorName[1],  sensorName[3], sensorName[4], sensorName[5],  sensorName[6], sensorName[7]);		
-../Src/main.c(306): warning:  #223-D: function "memset" declared implicitly
+../Src/main.c(319): warning:  #223-D: function "memset" declared implicitly
   						memset(buff, 0, sizeof buff);					 
-../Src/main.c(308): warning:  #223-D: function "sprintf" declared implicitly
+../Src/main.c(321): warning:  #223-D: function "sprintf" declared implicitly
   						sprintf(buff, "%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\r\n",  minValue[0],sensorValue[0],maxValue[0],minValue[1],sensorValue[1],maxValue[1],minValue[3],sensorValue[3],maxValue[3],minValue[4],sensorValue[4],maxValue[4],minValue[5],sensorValue[5],maxValue[5], minValue[6],sensorValue[6],maxValue[6],minValue[7],sensorValue[7],maxValue[7]);
-../Src/main.c(323): warning:  #223-D: function "sprintf" declared implicitly
+../Src/main.c(336): warning:  #223-D: function "sprintf" declared implicitly
   					sprintf(displaybuffer, "TDII - UTN FRBB ");
-../Src/main.c(332): warning:  #223-D: function "sprintf" declared implicitly
+../Src/main.c(345): warning:  #223-D: function "sprintf" declared implicitly
   					sprintf(displaybuffer, "%s :  ", sensorName[lcdcounter-1]);
-../Src/main.c(316): warning:  #177-D: variable "id"  was declared but never referenced
+../Src/main.c(329): warning:  #177-D: variable "id"  was declared but never referenced
   				 int id=0;
-../Src/main.c(386): warning:  #223-D: function "sprintf" declared implicitly
+../Src/main.c(399): warning:  #223-D: function "sprintf" declared implicitly
   				sprintf(buff, "\r%.2f \t %.2f \t %.2f \t%.2f \t%.2f \t%.2f \t%.2f \n", sensorValue[0], sensorValue[1],  sensorValue[3]/1000, sensorValue[5], sensorValue[6], sensorValue[7]);
-../Src/main.c(389): warning:  #223-D: function "sprintf" declared implicitly
-  						sprintf(buff, "\r %.2f\t \n", sensorValue[lcdcounter-1]/1000);
-../Src/main.c(391): warning:  #223-D: function "sprintf" declared implicitly
-  							sprintf(buff, "\r %.2f\t \n", sensorValue[lcdcounter-1]);
-../Src/main.c(262): warning:  #177-D: variable "altitud"  was declared but never referenced
+../Src/main.c(402): warning:  #223-D: function "sprintf" declared implicitly
+  						sprintf(buff, "\r %.2f  \n", sensorValue[lcdcounter-1]/1000);
+../Src/main.c(404): warning:  #223-D: function "sprintf" declared implicitly
+  							sprintf(buff, "\r %.2f  \n", sensorValue[lcdcounter-1]);
+../Src/main.c(275): warning:  #177-D: variable "altitud"  was declared but never referenced
      float altitud = 0.0;
-../Src/main.c(263): warning:  #177-D: variable "temp"  was declared but never referenced
+../Src/main.c(276): warning:  #177-D: variable "temp"  was declared but never referenced
      float temp = 0.0;
-../Src/main.c(292): warning:  #550-D: variable "flag_comPlotter"  was set but never used
+../Src/main.c(305): warning:  #550-D: variable "flag_comPlotter"  was set but never used
   	 int flag_comPlotter = 1;
 ../Src/main.c: 15 warnings, 0 errors
 linking...
-Program Size: Code=30600 RO-data=1052 RW-data=236 ZI-data=18644  
+Program Size: Code=30616 RO-data=1076 RW-data=268 ZI-data=18644  
 FromELF: creating hex file...
 "HAL_Display16x2_SDCard\HAL_Display16x2_SDCard.axf" - 0 Error(s), 18 Warning(s).
 
